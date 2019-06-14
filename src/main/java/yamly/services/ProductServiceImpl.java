@@ -14,7 +14,11 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
     }
 
-    public Product findTask(Integer id) {
-        return productRepository.getOne(id);
+    public Product findProduct(Integer id) {
+        return productRepository.findById(id).orElse(null);
+    }
+
+    public boolean productExists(Integer id) {
+        return productRepository.existsById(id);
     }
 }

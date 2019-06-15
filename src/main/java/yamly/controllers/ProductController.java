@@ -13,6 +13,7 @@ import yamly.controllers.helpers.Error;
 import yamly.models.Product;
 import yamly.services.ProductService;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -33,7 +34,25 @@ public class ProductController {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
 
-        return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/products/batch/random", method = RequestMethod.GET)
+    public ResponseEntity<?> getRandomBatchOfProducts() {
+        LOGGER.info("Fetching a batch of random Products");
+
+        List<Product> products = this.productService.getAllProducts();
+
+        if (products.isEmpty()) {
+            LOGGER.info("No Products");
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+
+        Collections.shuffle(products);
+
+        products = products.subList(0, 20 >= products.size() ? products.size() : 20);
+
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
@@ -48,6 +67,6 @@ public class ProductController {
 
         Product product = this.productService.getProduct(id);
 
-        return new ResponseEntity<Product>(product, HttpStatus.OK);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 }

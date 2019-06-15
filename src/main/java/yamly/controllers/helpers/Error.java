@@ -1,9 +1,9 @@
-package yamly.controllers;
+package yamly.controllers.helpers;
 
-public class CustomErrorType {
+public class Error {
     private String errorMessage;
 
-    public CustomErrorType(String errorMessage){
+    public Error(String errorMessage){
         this.errorMessage = errorMessage;
     }
 

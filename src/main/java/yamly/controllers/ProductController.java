@@ -3,18 +3,17 @@ package yamly.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import yamly.controllers.helpers.Error;
 import yamly.models.Product;
 import yamly.services.ProductService;
 
 @RestController
-@EnableAutoConfiguration
 public class ProductController {
     public static final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
 
@@ -27,7 +26,7 @@ public class ProductController {
 
         if(!this.productService.productExists(id)) {
             LOGGER.error("Product with id {} not found.", id);
-            return new ResponseEntity(new CustomErrorType("Product with id " + id
+            return new ResponseEntity(new Error("Product with id " + id
                     + " not found"), HttpStatus.NOT_FOUND);
         }
 

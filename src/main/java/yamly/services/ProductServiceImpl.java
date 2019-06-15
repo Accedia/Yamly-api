@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import yamly.repositories.ProductRepository;
 import yamly.models.Product;
 
+import java.util.List;
+
 @Service
 public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
@@ -14,11 +16,15 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
     }
 
-    public Product findProduct(Integer id) {
-        return productRepository.findById(id).orElse(null);
+    public List<Product> getAllProducts() {
+        return this.productRepository.findAll();
+    }
+
+    public Product getProduct(Integer id) {
+        return this.productRepository.findById(id).orElse(null);
     }
 
     public boolean productExists(Integer id) {
-        return productRepository.existsById(id);
+        return this.productRepository.existsById(id);
     }
 }

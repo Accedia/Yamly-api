@@ -2,8 +2,12 @@ package yamly.services;
 
 import yamly.models.Product;
 
+import java.util.List;
+
 public interface ProductService {
-    Product findProduct(Integer id);
+    List<Product> getAllProducts();
+
+    Product getProduct(Integer id);
 
     boolean productExists(Integer id);
 }

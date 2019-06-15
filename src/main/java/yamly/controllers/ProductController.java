@@ -5,10 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import yamly.controllers.helpers.Error;
 import yamly.models.Product;
 import yamly.services.ProductService;
@@ -37,22 +34,40 @@ public class ProductController {
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/products/batch/random", method = RequestMethod.GET)
-    public ResponseEntity<?> getRandomBatchOfProducts() {
+    @RequestMapping(value = "/products/random", method = RequestMethod.GET)
+    public ResponseEntity<?> getRandomBatchOfProducts(@RequestParam String number) {
         LOGGER.info("Fetching a batch of random Products");
 
-        List<Product> products = this.productService.getAllProducts();
+        int batch;
 
-        if (products.isEmpty()) {
-            LOGGER.info("No Products");
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        try {
+            batch = Integer.parseInt(number);
+
+            List<Product> products = this.productService.getAllProducts();
+
+            if (products.isEmpty()) {
+                LOGGER.info("No Products");
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
+
+            Collections.shuffle(products);
+
+            products = products.subList(0, batch);
+
+            return new ResponseEntity<>(products, HttpStatus.OK);
+        } catch (NumberFormatException error) {
+            LOGGER.info("Please provide a valid number!");
+            return new ResponseEntity<>(new Error("Please provide a valid number!"),
+                    HttpStatus.FORBIDDEN);
+        } catch (IllegalArgumentException  error) {
+            LOGGER.info("Number must be positive!");
+            return new ResponseEntity<>(new Error("Number must be positive!"),
+                    HttpStatus.FORBIDDEN);
+        } catch (IndexOutOfBoundsException error) {
+            LOGGER.info("Number is out of bounds!");
+            return new ResponseEntity<>(new Error("Number is out of bounds!"),
+                    HttpStatus.FORBIDDEN);
         }
-
-        Collections.shuffle(products);
-
-        products = products.subList(0, 20 >= products.size() ? products.size() : 20);
-
-        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/products/{id}", method = RequestMethod.GET)

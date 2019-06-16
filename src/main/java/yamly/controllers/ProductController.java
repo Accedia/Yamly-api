@@ -35,13 +35,17 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/products/random", method = RequestMethod.GET)
-    public ResponseEntity<?> getRandomBatchOfProducts(@RequestParam String number) {
+    public ResponseEntity<?> getRandomBatchOfProducts(@RequestParam(value = "number", required = false) String number) {
         LOGGER.info("Fetching a batch of random Products");
 
         int batch;
 
         try {
-            batch = Integer.parseInt(number);
+            if (number == null) {
+                batch = 20;
+            } else {
+                batch = Integer.parseInt(number);
+            }
 
             List<Product> products = this.productService.getAllProducts();
 

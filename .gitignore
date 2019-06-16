@@ -1,3 +1,8 @@
+/.env
+/docker-compose.yml
+/wait-for-it.sh
+/docker commands.txt
+
 target/
 !.mvn/wrapper/maven-wrapper.jar
 

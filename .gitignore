@@ -2,6 +2,7 @@
 /docker-compose.yml
 /wait-for-it.sh
 /docker commands.txt
+/ServiceAccountKey.json
 
 target/
 !.mvn/wrapper/maven-wrapper.jar

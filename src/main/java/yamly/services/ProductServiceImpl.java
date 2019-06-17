@@ -16,14 +16,17 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
     }
 
+    @Override
     public List<Product> getAllProducts() {
         return this.productRepository.findAll();
     }
 
+    @Override
     public Product getProduct(Integer id) {
         return this.productRepository.findById(id).orElse(null);
     }
 
+    @Override
     public boolean productExists(Integer id) {
         return this.productRepository.existsById(id);
     }

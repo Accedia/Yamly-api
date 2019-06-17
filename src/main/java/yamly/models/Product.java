@@ -1,6 +1,10 @@
 package yamly.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "products")
@@ -13,12 +17,16 @@ public class Product {
 
     private String imageUrl;
 
+    @JsonIgnore
+    private Set<Recipe> recipes;
+
     public Product() { }
 
     public Product(String name, String description, String imageUrl) {
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;
+        this.recipes = new HashSet<>();
     }
 
     @Id
@@ -56,6 +64,16 @@ public class Product {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "products_recipes")
+    public Set<Recipe> getRecipes() {
+        return recipes;
+    }
+
+    public void setRecipes(Set<Recipe> recipes) {
+        this.recipes = recipes;
     }
 
     @Override

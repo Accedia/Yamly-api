@@ -7,7 +7,7 @@ import java.util.List;
 public interface RecipeService {
     List<Recipe> getAllRecipes();
 
-    List<Integer> findAllIdsOfRecipesWithLikedProducts(List<Integer> liked, List<Integer> disliked);
+    List<Integer> findAllIdsOfRecipesWithLikedProducts(List<Long> liked, List<Long> disliked);
 
     Recipe getRecipe(Integer id);
 

@@ -22,7 +22,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<Integer> findAllIdsOfRecipesWithLikedProducts(List<Integer> liked, List<Integer> disliked) {
+    public List<Integer> findAllIdsOfRecipesWithLikedProducts(List<Long> liked, List<Long> disliked) {
         return this.recipeRepository.findAllIdsOfRecipesWithLikedProducts(liked, disliked);
     }
 
